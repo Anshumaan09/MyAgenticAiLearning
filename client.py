@@ -10,19 +10,18 @@ from langchain_groq import ChatGroq
 from langgraph.prebuilt import create_react_agent
 
 async def main():
-    # Construct absolute path to mathserver.py so subprocess can find it
     mathserver_path = os.path.abspath("mathserver.py")
 
     client = MultiServerMCPClient(
         {
             "math": {
-                "command": sys.executable,          # use same .venv python
+                "command": sys.executable,          
                 "args": [mathserver_path],
                 "transport": "stdio"
             },
             "weather": {
                 "url": "http://localhost:8000/mcp",
-                "transport": "streamable_http"      # underscore, not hyphen
+                "transport": "streamable_http"      
             }
         }
     )
@@ -30,7 +29,7 @@ async def main():
     tools = await client.get_tools()
     print("Available tools:", [t.name for t in tools])
 
-    model = ChatGroq(model="llama-3.3-70b-versatile")
+    model = ChatGroq(model="qwen/qwen3-32b")
     agent = create_react_agent(model, tools)
 
     math_response = await agent.ainvoke({

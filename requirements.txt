@@ -16,3 +16,4 @@ langchain_text_splitters
 sentence-transformers
 chromadb
 faiss-cpu
+pageindex
